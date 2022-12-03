@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div ng-app="logApp">
+        <div ng-controller="logctrl">
+            <input placeholder="write your email" ng-model="user"/>
+            <input placeholder="write your password" ng-model="pass"/>
+            <button type="button" ng-click="login()">Login</button>
+            <h1 ng-show="logflag">Welcome {{loggedUser.firstName}} {{loggedUser.lastName}}</h1>
+            <h1 ng-hide="logflag">Wrong username/password</h1>
+        </div>
+        <div ng-controller="tableCtrl">
+            <input ng-model="fname"/>
+            <input ng-model="lname"/>
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="us in users | filter:{'firstName': fname, 'lastName': lname} | orderBy:'firstName'">
+                        <td>{{us.firstName}}</td>
+                        <td>{{us.lastName}}</td>
+                        <td>{{us.telephone}}</td>
+                        <td>{{us.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    let users = [];
+    $.getJSON('./data/user_info.json',function(data){
+        users = data;
+    });
+    let logApp = angular.module('logApp',[]);
+    
+    logApp.controller('tableCtrl',function($scope,$rootScope){
+
+    })
+    logApp.controller('logctrl',function($scope,$rootScope){
+        $scope.logflag = false;
+        $scope.login = function(){
+            $.each(users,function(idx,user){
+            if(user.email == $scope.user && user.password == $scope.pass){
+                $scope.loggedUser = user;
+                $rootScope.users = users;
+                return false;
+            }
+        });
+        $scope.loggedUser != null ? $scope.logflag = true : null;
+        }
+    });
+</script>
+</html>

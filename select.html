@@ -1,0 +1,29 @@
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Angularjs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.js" charset="utf-8"></script>
+  </head>
+  <body ng-controller="ctrl as vm">
+    <select ng-model="vm.optSelected" ng-options="data as data.name for data in vm.selectOption">
+      <option value="">-선택-</option>
+    </select>
+    [{{vm.optSelected}}]
+
+    <script type="text/javascript">
+      angular.module('app',[])
+        .controller('ctrl',function($scope){
+          var vm = this;
+
+          vm.selectOption = [
+            {code:'1',name:'A'},
+            {code:'2',name:'B'},
+            {code:'3',name:'C'},
+          ];
+          // obj일 경우 아래와 같이 초기값을 넣어주면 동작하지 않는다. 
+          //vm.optSelected = {code:'1',name:'A'};
+          vm.optSelected = vm.selectOption[0];
+        });
+    </script>
+  </body>
+</html>

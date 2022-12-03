@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="invoiceApp">
+        <div ng-controller="newItem">
+            <input ng-model="id"/>
+            <input ng-model="itemName"/>
+            <input ng-model="Price"/>
+            <input ng-model="amount"/>
+            <button ng-click="Add()">Add</button>
+            <button ng-click="load()">LOAD</button>
+        </div>
+        <div ng-controller="filterCtrl">
+            <input ng-model="filterName" placeholder="search"/>
+        </div>
+        <table ng-controller="tableCtrl">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in items | filter:filtering() | orderBy: 'price'">
+                    <td>{{item.id}}</td>
+                    <td>{{item.item_name}}</td>
+                    <td>{{item.price | currency}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.price * item.amount | currency}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    let g_items = [];
+    let product = function(id,item_name,price,amount){
+        this.id = id;
+        this.item_name = item_name;
+        this.price = price;
+        this.amount = amount;
+    }
+        $.getJSON('./data/products.json',function(items){
+            g_items = items;
+         })
+    let invoiceApp = angular.module('invoiceApp',[]);
+    invoiceApp.run(function($rootScope){
+        // $rootScope.items = [];
+        // $rootScope.filterName = 'Soup';
+
+    });
+    invoiceApp.controller('newItem',function($scope,$rootScope){
+        $scope.load = function(){
+            $rootScope.items = g_items;
+        }
+        $scope.Add = function(){
+            let newItem = new product($scope.id,$scope.itemName,$scope.Price,$scope.amount);
+            $rootScope.items.push(newItem);
+        }
+    });
+    invoiceApp.controller('filterCtrl',function($scope,$rootScope){
+        $rootScope.filtering = function(){
+            return $scope.filterName;
+        }
+    })
+    invoiceApp.controller('tableCtrl',function($scope,$rootScope){
+
+    });
+    
+</script>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script  src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div ng-app="joaoApp" >
+        <div ng-controller="joaoCtrl">
+            <input placeholder="write your email" ng-model="email">
+            <input placeholder="write your password" ng-model="pass">
+            <button type="button" ng-click="login()">Login</button>
+            <h1>{{message}}</h1>
+            <h1 ng-show="logflag">{{message}}</h1>
+            <h1 ng-hide="logflag">Wrong ID/PASS</h1>
+        </div>
+        <div ng-controller="tableCtrl">
+            <input ng-model="fname">
+            <input ng-model="lname">
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="us in users | filter:{'firstName':fname, 'lastName': lname }| orderBy:'firstName'">
+                        <td>{{us.firstName}}</td>
+                        <td>{{us.lastName}}</td>
+                        <td>{{us.telephone}}</td>
+                        <td>{{us.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    let users =[];
+    let loggedUser = null;
+    $.getJSON('./data/user_info.json',function(data){
+        users = data;
+    });
+
+    let joaoApp = angular.module('joaoApp',[]);
+    joaoApp.controller('tableCtrl',function($scope,$rootScope){
+
+    })
+    joaoApp.controller('joaoCtrl',function($scope,$rootScope){
+        $scope.logflag = null;
+        $scope.login=function(){
+            let id = $scope.email;
+            let pass = $scope.pass;
+            for(const user of users){
+                if (user.email == id && user.password == pass){
+                    loggedUser = $scope.loggedUser = user;
+                    $rootScope.users =users;
+                    // console.log(loggedUser);
+                    break;
+                }
+            }
+            loggedUser != null ? $scope.logflag = true : null;
+            
+            if(loggedUser != null){
+                $scope.message = `Welcome ${loggedUser.firstName}`;
+            }else{
+                $scope.message = "Wrong Username and Password";
+            }
+        }
+    });
+</script>
+</html>

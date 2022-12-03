@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./src/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="stDetails" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div class="m-content">
+
+          </div>
+        </div>
+      
+      </div>
+      <hr/>
+    <input type="checkbox"/>
+    <hr/>
+    <input type="radio" name='gender' value='male'/>Male
+    <input type="radio" name='gender' value="female"/>Female
+    <input type="radio" name='gender' value='Non-binary'/>Non-binary
+    <hr/>
+    <button type="button">Load</button>
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Country</th>
+                <th>Language</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</body>
+<script>
+    let checkBox = document.querySelectorAll('input')[0].addEventListener('change',
+    function(e){
+        if(e.target.checked){
+            alert('Marcelo');
+        }else{
+            alert('Lucas');
+        };
+    });
+    ////////////////////
+    $('input[type=radio]').on('change',function(e){
+        console.log(e.target.value);
+    });
+    ////////////////////
+    let studentData = [];
+    let savedStudents = new Map();
+    let courses = [
+        {val:'html',txt:'HTML1'},
+        {val:'css',txt:'Style Sheet'},
+        {val:'js1',txt:'JavaScript Basic'},
+        {val:'js2',txt:'JavaScript Adavnced'},
+        {val:'php', txt:'Back-End with PHP'},
+        {val:'cms', txt:'Content Managment Systme'}
+    ];
+    const stObj = function(stDetails, marks){
+        this.details = stDetails;
+        this.marks = marks;
+
+    }
+    function tablePoper(){
+        $.each(studentData,function(i,student){
+            const tr = $(`<tr></tr>`);
+            const fName = $(`<td>${student.first_name}</td>`);
+            const lName = $(`<td>${student.last_name}</td>`);
+            const email = $(`<td>${student.email}</td>`)
+            const country = $(`<td>${student.Country}</td>`);
+            const lan = $(`<td>${student.lang}</td>`);
+            tr.append(fName,lName,email,country,lan);
+            tr.click(function(e){
+                $('#stDetails').show();
+                modalContent(i,student);
+            })
+            $('tbody').append(tr);
+        });
+    };
+    function modalContent(idx,stDetails){
+        let mCont = $('#stDetails .m-content');
+        mCont.children().remove();
+        mCont.append(`<h3> Name: ${stDetails.first_name} ${stDetails.last_name}</h3>`);
+        let select = $('<select></select>');
+        $.each(courses,function(idx,val){
+            select.append(`<option value = '${val.val}'>${val.txt}</option>`);
+        })
+        select.change(function(){
+            $(this).next().attr('disabled',false);
+        });
+        mCont.append(select);
+        mCont.append("<input placeholder='write the mark' disabled/>");
+        let saveBtn = $("<button>Save</button>");
+        saveBtn.click(function(){
+            if(savedStudents.has(idx)){
+
+            }else{
+                let cName = $('select').val();
+                let mark = parseFloat($(this).prev().val());
+                let studentObj = new stObj(sDetails,[{cname:cName, cmark:mark}]);
+                savedStudents.set(idx,studentObj);
+            }
+        });
+        mCont.append(saveBtn);
+    }
+    $.getJSON('./data/studentsData.json',function(data){
+        studentData = data;
+        tablePoper();
+    });
+    $('#stDetails .close').click(function(){
+        $('#stDetails').hide();
+    });
+</script>
+</html>

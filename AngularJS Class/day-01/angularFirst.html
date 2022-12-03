@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="firstApp" ng-controller="firstCtrl" ng-init="bgcolor='pink';price=10;qty=2">
+        <p style="background-color:{{bgcolor}} ;">total price is: {{price * qty}}</p>
+        <h1 ng-bind="price * qty"></h1>
+        <h2 ng-bind="firstName+ ' ' +lastName"></h2>
+        <input placeholder="write firstname" ng-model="firstName"/>
+        <h3>Firstname is:{{firstName}} age is: {{lastName}}</h3>
+    </div>
+   
+</body>
+<script>
+    let myApp = angular.module('firstApp',[]);
+    myApp.controller('firstCtrl',function($scope){
+        // $scope.firstName = "Luke";
+        $scope.lastName = "Ogata";
+    })
+</script>
+</html>

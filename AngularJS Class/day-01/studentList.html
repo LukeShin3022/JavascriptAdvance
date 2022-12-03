@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="stApp">
+        <div ng-controller="stCtrl">
+            <input type="{{inputType}}"/>
+            <input ng-model="fname"/>
+            <input ng-model="lname"/>
+            <input ng-model="grade"/>
+            <button ng-click="addstudent()">Add</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students">
+                        <td>{{student.fname}}</td>
+                        <td>{{student.lname}}</td>
+                        <td>{{student.grade}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2 ng-bind="'Maximum is:' + max"></h2>
+            <h2>Minimum is: {{min}}</h2>
+            <h2>Average is: {{avg}}</h2>
+        </div>
+    </div>
+</body>
+<script>
+    let stApp = angular.module('stApp',[]);
+    stApp.controller('stCtrl',function($scope){
+        $scope.students = [];
+        $scope.inputType = "password";
+        const studentObj =function(fname,lname,grade){
+            this.fname = fname;
+            this.lname = lname;
+            this.grade = parseFloat(grade);
+        };
+        const max = function(){
+            let max = 0;
+            for(let student of $scope.students){
+                if(max<student.grade){
+                    max = student.grade;
+                }
+            }
+            return max;
+        };
+        const min = function(){
+            let min = $scope.students[0].grade;
+            for(let student of $scope.students){
+                if(min>student.grade){
+                    min = student.grade;
+                }
+            }
+            return min;
+        };
+        const avg = function(){
+            let sum = 0;
+            for(let student of $scope.students){
+                sum += student.grade;
+            }
+            let avg = sum / $scope.students.length;
+            return avg;
+        }
+        $scope.addstudent = function(){
+            let stObj = new studentObj($scope.fname,$scope.lname,$scope.grade);
+            $scope.students.push(stObj);
+            $scope.max = max();
+            $scope.min = min();
+            $scope.avg = avg();
+        }
+    })
+</script>
+</html>

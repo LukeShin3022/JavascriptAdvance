@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="prApp">
+        <div ng-controller="calCtrl">
+            <input type="number" ng-model="num1"/>
+            <input type="number" ng-model="num2"/>
+            <h1>{{num1 + num2}}</h1>
+            <h1>{{num1 - num2}}</h1>
+            <h1>{{num1 * num2}}</h1>
+            <input ng-model="stName"/>
+            <button type="button" ng-click="nameAdder()">Add</button>
+            <br/>
+            <input ng-model="fname"/>
+            <input ng-model="lname"/>
+            <input ng-model="grade"/>
+            <button ng-click="studentAdder()">Add new student</button>
+            <ul>
+                <li ng-repeat="name in names">
+                    {{name}}
+                </li>
+            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students">
+                        <td>{{student.name}}</td>
+                        <td>{{student.lname}}</td>
+                        <td>{{student.grade}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+<script>
+    class student{
+        #fname;
+        #lname;
+        #grade;
+        constructor(fname,lname,grade){
+            this.#fname = fname;
+            this.#lname = lname;
+            this.#grade = parseFloat(grade);
+        }
+        Objector(){
+            return {name:this.#fname,lname:this.#lname,grade:this.#grade};
+        }
+    }
+    let prApp = angular.module('prApp',[]);
+    prApp.controller('calCtrl',function($scope){
+        $scope.names = ['Jun','Haruka','Jay','Marcelo'];
+        $scope.students = [
+            {name:'Marcelo',lname:'Ogata',grade:10},
+            {name:'Lucas',lname:'Ogata2',grade:50},
+            {name:'Haruka',lname:'Jun',grade:80},
+            {name:'Jun',lname:'Jay',grade:5}
+        ]
+        $scope.nameAdder = function(){
+            $scope.names.push($scope.stName);
+            $scope.stName = "";
+        }
+        $scope.studentAdder = ()=>{
+            let stNew = new student($scope.fname,$scope.lname,$scope.grade);
+            $scope.students.push(stNew.Objector());
+        }
+    })
+</script>
+</html>

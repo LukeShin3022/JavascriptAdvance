@@ -1,0 +1,21 @@
+[
+    {"prov":"BC","city":"Vancouver"},
+    {"prov":"BC","city":"North Vancouver"},
+    {"prov":"BC","city":"West Vancouver"},
+    {"prov":"BC","city":"East Vancouver"},
+    {"prov":"BC","city":"Burnaby"},
+    {"prov":"BC","city":"New Westminster"},
+    {"prov":"BC","city":"Richmond"},
+    {"prov":"BC","city":"Surrey"},
+    {"prov":"BC","city":"Kelowna"},
+    {"prov":"ON","city":"Toronto"},
+    {"prov":"ON","city":"Niagra"},
+    {"prov":"ON","city":"Ottawa"},
+    {"prov":"ON","city":"Manitoba"},
+    {"prov":"ON","city":"Kingstone"},
+    {"prov":"AB","city":"Edmond"},
+    {"prov":"AB","city":"Calgary"},
+    {"prov":"AB","city":"Banff"},
+    {"prov":"AB","city":"Peaumont"},
+    {"prov":"AB","city":"Lethbridge"}
+]

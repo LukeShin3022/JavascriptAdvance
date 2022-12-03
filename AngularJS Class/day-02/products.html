@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script  src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div ng-app="prodApp">
+        <div ng-controller="searchCtrl">
+            <input ng-model="pdName">
+            <button type="button" ng-click="showData()">Show</button>
+        </div>
+        <div ng-controller="prodCtrl">
+            <!-- <input ng-model="lname"> -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item Name</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="pd in products | filter:{'item_name':pdName}| orderBy:'item_name'">
+                        <td>{{pd.id}}</td>
+                        <td>{{pd.item_name}}</td>
+                        <td>{{pd.price}}</td>
+                        <td>{{pd.amount}}</td>
+                        <td>{{pd.price * pd.amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    let products = [];
+    $.getJSON('./data/products.json',function(data){
+        products = data;
+        // console.log(products);
+    });
+    let prodApp = angular.module('prodApp',[]);
+    prodApp.controller('searchCtrl',function($scope,$rootScope){
+        $scope.showData=function(){
+            for(const product of products){
+                $rootScope.products = products;
+                $rootScope.pdName = $scope.pdName;
+                // $rootScope.
+                // // console.log(product);
+            }
+        }
+    })
+    prodApp.controller('prodCtrl',function($scope, $rootScope){
+        // console.log(products);
+        $scope.pdName = $rootScope.pdName;
+    });
+</script>
+</html>

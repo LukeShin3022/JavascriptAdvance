@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
+    
+    <title>Document</title>
+</head>
+<body>
+    <div id="intro">
+        <h1>
+            {{welcomemsg}}
+        </h1>
+        <h3>{{fname}} {{lname}}</h3>
+        <h3>{{feeling}}</h3>
+        <h2>{{details()}}</h2>
+        <div v-html="htmlContent">
+
+        </div>
+    </div>
+    <div id="secondApp">
+        <h3>{{fname}} {{lname}}</h3>
+        <h3>{{feeling}}</h3>
+        <img :src="imgSrc"/>
+    </div>
+</body>
+<script>
+    let VueApp = new Vue({
+        el: '#intro',
+        data:{
+            welcomemsg:'Hello World! from Vue.JS',
+            fname:'Taka',
+            lname:'Ogata',
+            feeling:'sleepy',
+            htmlContent:'<h1>Hello</h1>'+'<p>world</p>'
+        },
+        methods:{
+            details: function(){
+                return `${this.fname} ${this.lname} ${this.feeling}`;
+            }
+        }
+    })
+    let VueApp2nd = new Vue({
+        el: '#secondApp',
+        data:{
+            fname:'Lucas',
+            lname:'Ogata',
+            feeling:'happy',
+            imgSrc:'./korea.jpg'
+        }
+    })
+</script>
+</html>

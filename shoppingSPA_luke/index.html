@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+    <title>Online Store</title>
+</head>
+<body ng-app="shopApp">
+    <header>
+        <nav>
+            <ul>
+                <li ng-hide="logFlag"><a href="#/!">Login</a></li>
+                <li ng-show="logFlag"><a href="#!product">Products</a></li>
+                <li ng-show="logFlag"><a href="#!cart">Shopping Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main ng-view>
+
+    </main>
+    <footer>
+
+    </footer>
+</body>
+<script type="module">
+
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="prApp">
+        <div ng-controller="calCtrl">
+            <input type="number" ng-model="num1"/>
+            <input type="number" ng-model="num2"/>
+            <h1>{{num1 + num2}}</h1>
+            <h1>{{num1 - num2}}</h1>
+            <h1>{{num1 * num2}}</h1>
+            <input ng-model="stName"/>
+            <button type="button" ng-click="nameAdder()">Add</button>
+            <ul>
+                <li ng-repeat="name in names">
+                    {{name}}
+                </li>
+            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students">
+                        <td>{{student.name}}</td>
+                        <td>{{student.lname}}</td>
+                        <td>{{student.grade}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+<script>
+    let prApp = angular.module('prApp',[]);
+    prApp.controller('calCtrl',function($scope){
+        $scope.names = ['Jun','Haruka','Jay','Marcelo'];
+        $scope.students = [
+            {name:'Marcelo',lname:'Ogata',grade:10},
+            {name:'Lucas',lname:'Ogata2',grade:50},
+            {name:'Haruka',lname:'Jun',grade:80},
+            {name:'Jun',lname:'Jay',grade:5}
+        ]
+        $scope.nameAdder = function(){
+            $scope.names.push($scope.stName);
+            $scope.stName = "";
+        }
+    })
+</script>
+</html>

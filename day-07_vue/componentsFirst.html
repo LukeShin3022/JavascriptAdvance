@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="firstDiv">
+        <external-compo></external-compo>
+        <component v-bind:is="view"></component>
+        <input v-model="msg"/>
+        <!-- <p>{{msg}}</p> -->
+        {{msg}}
+    </div>
+    <div id="secondDiv">
+        <external-compo></external-compo>
+        <internal-compo></internal-compo>
+    </div>
+</body>
+<script>
+    Vue.component('external-compo',{
+        template:'<div><h2> I am an external Compo! </h2><p>Test</p></div>'
+    });
+    let firstVue = new Vue({
+        el:'#firstDiv',
+        data:{
+            view:'dynamic-compo',
+            msg:'haruka'
+        },
+        components: {
+            'dynamic-compo':{
+                template:'<h2 type="text">dynamic Compo</h2>',
+            },
+        },
+    })
+    let secondVue = new Vue({
+        el:'#secondDiv',
+        components: {
+            'internal-compo':{
+              template:'<h3>internal Compo</h3>',
+            },
+        },
+    })
+</script>
+</html>

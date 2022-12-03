@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+    <script src= "https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>SPA</title>
+</head>
+<body ng-app="firstSpa">
+    <header>
+        <nav>
+            <li><a href="#/!">Home page</a></li>
+            <li><a href="#!about">Aobut</a></li>
+            <li ng-hide="hide"><a href="#!contactus">Contact US</a></li>
+        </nav>
+        <!-- <article>
+            <input type="text" placeholder="wirte Name" ng-model="name">
+        </article> -->
+    </header>
+    <main ng-view>
+        
+    </main>
+    <footer>
+        <hr>
+        <h3>Footer of the page</h3>
+    </footer>
+</body>
+<script>
+    const firstSpa = angular.module('firstSpa',['ngRoute']);
+    let name = "";
+    firstSpa.config(($routeProvider)=>{
+        $routeProvider
+        .when("/",{
+            templateUrl: './templates/home.html',
+            controller: 'homeCtrl'
+        })
+        .when("/about",{
+            templateUrl: './templates/about.html',
+            controller: 'aboutCtrl'
+
+        })
+        .when("/contactus",{
+            templateUrl: './templates/contact.html',
+            controller: 'contactCtrl'
+        })
+        .otherwise({
+            templateUrl: './templates/404.html'
+        })
+        
+    });
+    firstSpa.run(function($rootScope){
+        $rootScope.name = 'Luke';
+    });
+    firstSpa.controller('homeCtrl',function($scope, $rootScope){
+        $scope.msg = "I am the home page .....";
+        $scope.nameCh = function(){
+            $rootScope.name = $scope.name
+        }
+        $scope.hideCh = function(){
+            $rootScope.hide = $scope.hide
+        }
+    });
+    firstSpa.controller('aboutCtrl',function($scope, $rootScope){
+        $scope.msg = "I LOVE programing....";
+    });
+    firstSpa.controller('contactCtrl',function($scope){
+        $scope.msg = "WEB DEVELOPMENT IS MY LIFE.....";
+    });
+
+</script>
+</html>
